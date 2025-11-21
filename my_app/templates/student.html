@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+            {{form.as_p}}
+           {% if form.instance.id %}
+        <button name="action" value="edit">update</button>
+        {% else %}
+        <button name="action" value="create">create</button>
+        {% endif %}
+
+            </form>
+
+    {% for i in data%}
+    <li>{{i.id}}---{{i.name}}---{{i.age}}---{{i.mail}}---{{i.course}}--{{i.dob}}--{{i.mobile}}--{{i.address}} <a href="{% url 'stu-del' i.id %}">delete</a>
+    <a href="{% url 'stu-form' i.id %}">edit</a>
+    </li>
+    {% endfor %}
+</body>
+</html>
