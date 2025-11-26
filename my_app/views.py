@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect,HttpResponse
+from django.http import JsonResponse
 
 # # Create your views here.
 
@@ -171,3 +172,33 @@ def image_view(request):
     img = ImageModel.objects.all()
     print(img[0].image)
     return render(request,"index.html",{'data':img})
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+
+@api_view(['GET'])
+def student_getall(request):
+    std = Student.objects.values()
+    print(std)
+    return JsonResponse(list(std),safe=False)
+
+
+from rest_framework.views import APIView
+from .serializers import *
+
+
+class StudentView(APIView):
+    def get(self,request):
+        std = Student.objects.all()
+        std_serial = StudentSerializer(std,many=True)
+        return Response(std_serial.data)
+ 
+
+    def post(self,request):
+        std = StudentSerializer(data=request.data)
+        if std.is_valid():
+            std.save()
+            return Response({"msg":"data saved","data":std.data})
+        else:
+            return Response({"error":std.errors})

@@ -16,5 +16,7 @@ urlpatterns = [
     path("pro/edit/<int:pro_id>/",pro_edit,name="pro-edit"),
     path("query/",product_query,name="query"),
     path("orm/",orm_view,name="orm"),
-    path('image/',image_view,name="image")
+    path('image/',image_view,name="image"),
+    path('student/api/getall',student_getall),
+    path('std/api/getall',StudentView.as_view())
 ]
