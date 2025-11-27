@@ -18,5 +18,6 @@ urlpatterns = [
     path("orm/",orm_view,name="orm"),
     path('image/',image_view,name="image"),
     path('student/api/getall',student_getall),
-    path('std/api/getall',StudentView.as_view())
+    path('std/api/getall',StudentView.as_view()),
+    path('std/api/<int:id>/',Student_edit_delete.as_view())
 ]

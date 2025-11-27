@@ -11,7 +11,7 @@ from django.http import JsonResponse
 #     print(request.method)
 #     if request.method=="POST":
 #         name = request.POST.get("username")
-#         mail = request.POST.get("mail")
+#         mail = request.POST.get("mail") 
 #         print(name,mail)
 #         return render(request,"index.html",{"name":name,"mail":mail})
 #     return render(request,"index.html")
@@ -202,3 +202,22 @@ class StudentView(APIView):
             return Response({"msg":"data saved","data":std.data})
         else:
             return Response({"error":std.errors})
+
+class Student_edit_delete(APIView):
+    def get(self,request,id):
+        std = Student.objects.get(id=id)
+
+        std_serial = StudentSerializer(std)
+        return Response(std_serial.data)
+    def delete(self,request,id):
+        std = Student.objects.get(id=id)
+        std.delete()
+        return Response("deleted")
+    def put(self,request,id):
+        std = Student.objects.get(id=id)
+        std_serial = StudentSerializer(instance=std,data=request.data)
+        if std_serial.is_valid():
+            std_serial.save()
+            return Response({"msg":"updated","data":std_serial.data})
+        else:
+            return Response(std_serial.errors)  
